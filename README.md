@@ -23,7 +23,7 @@ multivariate joint distributions.
 
 ## Installation
 
-You can install the prototype version of relate from
+You can install the prototype version of *relate* from
 [GitHub](https://github.com/yqzhong7) with:
 
 ``` r
@@ -34,4 +34,4 @@ remotes::install_github("yqzhong7/relate")
 ## Tutorial
 
 Please find the tutorial in the
-[vignette](https://github.com/yqzhong7/vignettes/relate.Rmd)
+[vignette](https://github.com/yqzhong7/relate/blob/master/vignettes/relate.Rmd)

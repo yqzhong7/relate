@@ -29,7 +29,7 @@ This package uses unsupervised random forests to obtain distances between observ
 
 ## Installation
 
-You can install the prototype version of relate from [GitHub](https://github.com/yqzhong7) with:
+You can install the prototype version of *relate* from [GitHub](https://github.com/yqzhong7) with:
 
 ```{r installation, eval=FALSE}
 install.packages("remotes")
@@ -37,4 +37,4 @@ remotes::install_github("yqzhong7/relate")
 ```
 
 ## Tutorial
-Please find the tutorial in the [vignette](https://github.com/yqzhong7/vignettes/relate.Rmd)
+Please find the tutorial in the [vignette](https://github.com/yqzhong7/relate/blob/master/vignettes/relate.Rmd)
