@@ -7,8 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "yq.zhong7@gmail.com",
            comment = c(ORCID = "0000-0002-4042-7450"))
-Description: What the package does (one paragraph).
-License: GPL (>= 3)
+Description: R package 'relate' is to identify cohort cluster with disparate covariate information using a machine learning approach.
 Encoding: UTF-8
 Language: es
 LazyData: true
