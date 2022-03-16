@@ -1,0 +1,73 @@
+---
+title: "Missing Data Interpolation among Cohorts with Disparate Covariate Information"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Missing Data Interpolation among Cohorts with Disparate Covariate Information}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Load packages
+```{r setup}
+suppressMessages({
+  library(dendextend)
+  library(randomForestSRC)
+  library(tidyverse)
+  library(SHT)
+  library(here)
+  library(mice)
+  library(stringr)
+  library(relate)
+})
+
+data("df")
+true_distribution <- df$distribution
+df <- df %>% dplyr::select(-distribution)
+set.seed(123)
+```
+
+## Conduct unsupervised random forest using cohort id as the outcome
+```{r rf}
+analytic.rfsrc <- rfsrc.fast(cohortid ~ ., #regress cohort id on all other variables 
+                             data = df,
+                             distance=T, ntree=1500, nsplit=3,
+                             na.action="na.impute",nimpute=1) # impute within nodes
+distance.matrix <- analytic.rfsrc$distance     # extract distance matrix 
+```
+
+## Hierachical clustering of the average distance matrix
+```{r h-cluster}
+#calculate average distance matrix
+dist_avg_mat <- avg_dist_func(distance.matrix, df$cohortid)
+
+#cluster average distance matrix and 
+#identify which cohorts are clustering together on dendogram
+dmean <- as.dist(dist_avg_mat)
+
+#hierarchical clustering 
+hc2 <- hclust(dmean, method = "ward.D2")
+dend <- as.dendrogram(hc2)
+plot(dend)
+table(true_distribution, df$cohortid, dnn = c("True Cluster","Cohort ID"))
+```
+## Recursive BG testing based on the previous dendrogram 
+```{r recursion, warning=F, message=F, error=F}
+ll <- recursive_BG(dend = dend, df = df, id.var = "cohortid", 
+           verbose = T, saveIntermediate = F, 
+           BG.method = 'asymptotic', impute = T, 
+           miceArgs = list(method = c("mean"), m =1, maxit = 5, seed = 123, printFlag = F))
+
+ll$clusters
+table(true_distribution, df$cohortid, dnn = c("True Cluster","Cohort ID"))
+```
+
+
+

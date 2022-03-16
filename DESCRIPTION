@@ -1,0 +1,30 @@
+Package: relate
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Yongqi",
+           family = "Zhong",
+           role = c("aut", "cre"),
+           email = "yq.zhong7@gmail.com",
+           comment = c(ORCID = "0000-0002-4042-7450"))
+Description: What the package does (one paragraph).
+License: GPL (>= 3)
+Encoding: UTF-8
+Language: es
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
+    dplyr,
+    tidyr,
+    mice,
+    SHT,
+    stringr,
+    dendextend,
+    tibble
+Depends: 
+    R (>= 2.10)
