@@ -33,16 +33,50 @@ avg_dist_func <- function(dist_mat, cohortid.vec){
 #'
 #' @param df data.frame for MICE imputation
 #' @param clusterid  string, the name of cohort id indicator in the dataframe
+#' @param imputeLevel numeric, only variables with missingness less than this level will be imputed, ranges from 0 (no imputation) to 1 (impute everything), e.g., imputeLevel = 0.3 meaning variables <= 30% missingness will be imputed
 #' @param miceArg a list of arguments parse into `mice::mice`
 #'
 #' @importFrom magrittr "%>%"
 #' @export
-mice_group_impute <- function(df, clusterid, miceArg = list(method = 'mean', maxit = 1)){
+mice_group_impute <- function(df, clusterid, imputeLevel = 1, miceArg = list(method = 'mean', maxit = 1)){
+  #no imputation
+  if (imputeLevel==0){
+    return(df)
+  }
+
+  #impute everything
+  if (imputeLevel==1){
+    group_imp <- df %>%
+      dplyr::group_by(dplyr::all_of(clusterid)) %>%
+      dplyr::group_map(~mice::complete(do.call(mice::mice, args= append(list(data=.x),miceArg)))) %>%
+      dplyr::bind_rows() %>%
+      dplyr::ungroup()
+
+    return(group_imp)
+  }
+
+  #impute under imputeLevel
+  df_col <- colnames(df)
+  #calculate the proportion of missingness
+  missing_lvl <- df %>%
+    dplyr::select(-dplyr::all_of(clusterid)) %>%
+    dplyr::summarise(dplyr::across(dplyr::everything(), ~sum(is.na(.x))/dplyr::n())) %>%
+    tidyr::pivot_longer(dplyr::everything()) %>%
+    dplyr::mutate(impute = .data$value <= imputeLevel)
+
+  imputed_vars <- missing_lvl[missing_lvl$impute,]$name
+  not_imputed_vars <- missing_lvl[!missing_lvl$impute,]$name
+
+  #imputation by clusterid
   group_imp <- df %>%
-    dplyr::group_by(dplyr::vars(clusterid)) %>%
+    dplyr::select(dplyr::all_of(clusterid), dplyr::all_of(imputed_vars)) %>%
+    dplyr::group_by(dplyr::all_of(clusterid)) %>%
     dplyr::group_map(~mice::complete(do.call(mice::mice, args= append(list(data=.x),miceArg)))) %>%
     dplyr::bind_rows() %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::bind_cols(df %>% dplyr::select(dplyr::all_of(not_imputed_vars))) %>%
+    dplyr::select(dplyr::all_of(df_col))
+
   return(group_imp)
 }
 

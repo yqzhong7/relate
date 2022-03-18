@@ -4,12 +4,19 @@
 \alias{mice_group_impute}
 \title{Multiple imputation by group}
 \usage{
-mice_group_impute(df, clusterid, miceArg = list(method = "mean", maxit = 1))
+mice_group_impute(
+  df,
+  clusterid,
+  imputeLevel = 1,
+  miceArg = list(method = "mean", maxit = 1)
+)
 }
 \arguments{
 \item{df}{data.frame for MICE imputation}
 
 \item{clusterid}{string, the name of cohort id indicator in the dataframe}
+
+\item{imputeLevel}{numeric, only variables with missingness less than this level will be imputed, ranges from 0 (no imputation) to 1 (impute everything), e.g., imputeLevel = 0.3 meaning variables <= 30\% missingness will be imputed}
 
 \item{miceArg}{a list of arguments parse into \code{mice::mice}}
 }
