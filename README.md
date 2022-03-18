@@ -43,4 +43,4 @@ remotes::install_github("yqzhong7/relate")
 ## Tutorial
 
 Please find the tutorial in this
-[vignette](https://github.com/yqzhong7/relate/blob/master/vignettes/relate.Rmd)
+[vignette](https://yqzhong7.github.io/relate/articles/relate.html)
