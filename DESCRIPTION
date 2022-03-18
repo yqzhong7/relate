@@ -8,6 +8,7 @@ Authors@R:
            email = "yq.zhong7@gmail.com",
            comment = c(ORCID = "0000-0002-4042-7450"))
 Description: R package 'relate' is to identify cohort cluster with disparate covariate information using a machine learning approach.
+License: GPL-3
 Encoding: UTF-8
 Language: es
 LazyData: true
@@ -18,13 +19,18 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Imports: 
+    rlang,
     dplyr,
     tidyr,
+    magrittr,
     mice,
     SHT,
     stringr,
     dendextend,
-    tibble
+    tibble,
+    purrr,
+    stats,
+    randomForestSRC
 Depends: 
     R (>= 2.10)
 URL: https://github.com/yqzhong7/relate

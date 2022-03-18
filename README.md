@@ -21,6 +21,15 @@ hierarchical clustering to identify sub-groups of cohorts, and then test
 whether covariate distributions provide evidence differences in
 multivariate joint distributions.
 
+This work is supported by Environmental influences on Child Health
+Outcomes [(ECHO)](https://echochildren.org/) Data Analysis Center
+[(DAC)](https://www.jhsph.edu/departments/epidemiology/echo/)
+\[U24OD023382; PI: Jacobson/Parker\].
+
+<img src="man/figures/ECHO-logo.jpg" align="center" width=50% height=50%/>
+
+------------------------------------------------------------------------
+
 ## Installation
 
 You can install the prototype version of *relate* from
@@ -33,5 +42,5 @@ remotes::install_github("yqzhong7/relate")
 
 ## Tutorial
 
-Please find the tutorial in the
+Please find the tutorial in this
 [vignette](https://github.com/yqzhong7/relate/blob/master/vignettes/relate.Rmd)

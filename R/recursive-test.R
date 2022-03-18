@@ -15,21 +15,25 @@
 #' @param impute boolean, whether to conduct MICE imputation within clusters before testing
 #' @param miceArgs list, a list of arguments parse into `mice::mice`
 #'
+#' @importFrom magrittr "%>%"
+#' @importFrom rlang .data
+#' @importFrom stats is.leaf
+#'
 #' @export
-recursive_BG <- function(dend = dend, df = data.miss, id.var = "cohortid", alpha.level = 0.05,
+recursive.test <- function(dend , df, cohortid.var = "cohortid", alpha.level = 0.05,
                  verbose = T,saveIntermediate = F,
                  BG.method = 'asymptotic', n_perm = 200, N_auto = 50,
                  impute = T, miceArgs = list(method = 'mean', maxit = 1)){
   ##---data preprocessing---#
   imputed_df <- df %>%
-    rename(cohortid = all_of(id.var)) %>%
-    mutate(clusterid = cohortid)
+    dplyr::rename(cohortid = dplyr::all_of(cohortid.var)) %>%
+    dplyr::mutate(clusterid = .data$cohortid)
 
   ##---wrapper for pairwise comparison---#
-  compareDF_func <- function(X = left, Y = right, verbose = verbose, BG.method = BG.method){
+  compareDF_func <- function(X, Y, verbose , BG.method){
     # create cartesian product of the cohort id
-    compareDF = cross_df(list(X = unlist(X), Y = unlist(Y))) %>%
-      mutate(across(X:Y, as.character))
+    compareDF = purrr::cross_df(list(X = unlist(X), Y = unlist(Y))) %>%
+      dplyr::mutate(dplyr::across(.data$X:.data$Y, as.character))
     # print the comparison at each traversal
     if (verbose){
       cat("Start testing: \n")
@@ -44,11 +48,11 @@ recursive_BG <- function(dend = dend, df = data.miss, id.var = "cohortid", alpha
 
       #select and impute
       testing_cohorts_df <- imputed_df %>%
-        filter(clusterid %in% c(X,Y))
+        dplyr::filter(.data$clusterid %in% c(X,Y))
 
       #mean imputation by cluster
       if(impute){
-        imputed_cohorts <- mice_group_impute(df = testing_cohorts_df, clusterid=clusterid, miceArg = miceArgs)
+        imputed_cohorts <- mice_group_impute(df = testing_cohorts_df, clusterid=.data$clusterid, miceArg = miceArgs)
       } else {
         imputed_cohorts <- testing_cohorts_df
       }
@@ -57,8 +61,14 @@ recursive_BG <- function(dend = dend, df = data.miss, id.var = "cohortid", alpha
       cohorts <- imputed_cohorts %>%  dplyr::select_if(~ !any(is.na(.)))
 
       #BG test
-      pairwise_p[i] <- BGcompare(cohorts %>% filter(clusterid %in% X) %>% dplyr::select(-cohortid,-clusterid) %>% as.matrix(),
-                                 cohorts %>% filter(clusterid %in% Y) %>% dplyr::select(-cohortid,-clusterid) %>% as.matrix(),
+      pairwise_p[i] <- BGcompare(cohorts %>%
+                                   dplyr::filter(.data$clusterid %in% X) %>%
+                                   dplyr::select(-.data$cohortid,-.data$clusterid) %>%
+                                   as.matrix(),
+                                 cohorts %>%
+                                   dplyr::filter(.data$clusterid %in% Y) %>%
+                                   dplyr::select(-.data$cohortid,-.data$clusterid) %>%
+                                   as.matrix(),
                                  BG.method = BG.method)
 
 
@@ -69,8 +79,9 @@ recursive_BG <- function(dend = dend, df = data.miss, id.var = "cohortid", alpha
       }
     }
     compareDF = compareDF %>%
-      mutate(Pairwise.p = pairwise_p,Significant = pairwise_p<alpha.level) %>%
-      tibble()
+      dplyr::mutate(Pairwise.p = pairwise_p,
+                    Significant = pairwise_p<alpha.level) %>%
+      tibble::tibble()
     if (verbose){
       cat("Results: \n")
       print(compareDF[3:4])
@@ -82,7 +93,7 @@ recursive_BG <- function(dend = dend, df = data.miss, id.var = "cohortid", alpha
   ##---recursion---##
   procDendro <- function(dend,verbose){
     if(is.leaf(dend)){
-      return(dend %>% get_leaves_attr('label') %>% as.character())
+      return(dend %>% dendextend::get_leaves_attr('label') %>% as.character())
     }
 
     left = procDendro(dend[[1]], verbose = verbose)
@@ -96,19 +107,19 @@ recursive_BG <- function(dend = dend, df = data.miss, id.var = "cohortid", alpha
       if(!compareDF$Significant[i]){
         newclusterid = paste(compareDF$X[i],compareDF$Y[i], sep = ",")
         imputed_df <<- imputed_df %>%
-          mutate(clusterid = ifelse(clusterid %in% c(compareDF$X[i],compareDF$Y[i]),
-                                    newclusterid,clusterid))
+          dplyr::mutate(clusterid = ifelse(.data$clusterid %in% c(compareDF$X[i],compareDF$Y[i]),
+                                           newclusterid,.data$clusterid))
       }
     }
 
     combined_leaf <- compareDF %>%
-      filter(!Significant) %>%
-      mutate(combin = paste(X,Y,sep=";")) %>%
-      pull(combin)
+      dplyr::filter(!.data$Significant) %>%
+      dplyr::mutate(combin = paste(.data$X,.data$Y,sep=";")) %>%
+      dplyr::pull(.data$combin)
     dend_list <- lapply(list(left,right), function(x) gsub(",$", "",x)) %>%
       unlist()
 
-    not_in_combined <- dend_list[!dend_list %in% unlist(str_split(combined_leaf,";"))]
+    not_in_combined <- dend_list[!dend_list %in% unlist(stringr::str_split(combined_leaf,";"))]
 
 
     output <- gsub(";", ",",c(combined_leaf,not_in_combined))

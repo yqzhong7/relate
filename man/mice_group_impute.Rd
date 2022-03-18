@@ -4,12 +4,7 @@
 \alias{mice_group_impute}
 \title{Multiple imputation by group}
 \usage{
-mice_group_impute(
-  df,
-  clusterid,
-  miceArg = list(method = "mean", maxit = 1),
-  ...
-)
+mice_group_impute(df, clusterid, miceArg = list(method = "mean", maxit = 1))
 }
 \arguments{
 \item{df}{data.frame for MICE imputation}

@@ -3,4 +3,7 @@
 export(BGcompare)
 export(avg_dist_func)
 export(mice_group_impute)
-export(recursive_BG)
+export(recursive.test)
+importFrom(magrittr,"%>%")
+importFrom(rlang,.data)
+importFrom(stats,is.leaf)

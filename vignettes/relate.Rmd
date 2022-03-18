@@ -1,8 +1,8 @@
 ---
-title: "Missing Data Interpolation among Cohorts with Disparate Covariate Information"
+title: "Recursive Multivariate Testing for Cohort Clustering with Disparate Covariate Information"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Missing Data Interpolation among Cohorts with Disparate Covariate Information}
+  %\VignetteIndexEntry{Recursive Multivariate Testing for Cohort Clustering with Disparate Covariate Information}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,9 +20,8 @@ knitr::opts_chunk$set(
 suppressMessages({
   library(dendextend)
   library(randomForestSRC)
-  library(tidyverse)
+  # library(tidyverse)
   library(SHT)
-  library(here)
   library(mice)
   library(stringr)
   library(relate)
@@ -60,7 +59,7 @@ table(true_distribution, df$cohortid, dnn = c("True Cluster","Cohort ID"))
 ```
 ## Recursive BG testing based on the previous dendrogram 
 ```{r recursion, warning=F, message=F, error=F}
-ll <- recursive_BG(dend = dend, df = df, id.var = "cohortid", 
+ll <- recursive.test(dend = dend, df = df, cohortid.var = "cohortid", 
            verbose = T, saveIntermediate = F, 
            BG.method = 'asymptotic', impute = T, 
            miceArgs = list(method = c("mean"), m =1, maxit = 5, seed = 123, printFlag = F))
