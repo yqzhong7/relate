@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{mice_group_impute}
 \alias{mice_group_impute}
-\title{Multiple imputation by group}
+\title{Multiple imputation by cohort/cluster}
 \usage{
 mice_group_impute(
   df,
@@ -16,10 +16,10 @@ mice_group_impute(
 
 \item{clusterid}{string, the name of cohort id indicator in the dataframe}
 
-\item{imputeLevel}{numeric, only variables with missingness less than this level will be imputed, ranges from 0 (no imputation) to 1 (impute everything), e.g., imputeLevel = 0.3 meaning variables <= 30\% missingness will be imputed}
+\item{imputeLevel}{binary, 0 (no imputation) and 1 (impute everything)}
 
 \item{miceArg}{a list of arguments parse into \code{mice::mice}}
 }
 \description{
-Multiple imputation using \code{mice::mice} by group
+Multiple imputation using \code{mice::mice} by cohort/cluster
 }

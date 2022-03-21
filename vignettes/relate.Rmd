@@ -26,16 +26,32 @@ suppressMessages({
   library(relate)
 })
 
-data("df")
-true_distribution <- df$distribution
-df <- df %>% dplyr::select(-distribution)
+```
+
+
+## Data setup
+```{r}
 set.seed(123)
+#load simulated dataset from the package
+data("cohort_na_df")
+cohort_na_df[199:202,]
+#save the true distribution
+true_distribution <- cohort_na_df$distribution 
+cohort_na_df <- cohort_na_df %>% dplyr::select(-distribution)
+# examine missing pattern (e.g., some cohorts did not collect specific information)
+cohort_na_df %>% find_na_level(clusterid = "cohortid")
+#add random missingness in addition to the systematic missingness for a more realistic scenario
+random_missing_row <- sample(1:nrow(cohort_na_df), floor(nrow(cohort_na_df)/2))
+missing_col <- c(1,8,13,14)
+cohort_na_df[random_missing_row, missing_col] <- NA
+# examine missing pattern after adding random missingness
+cohort_na_df %>% find_na_level(clusterid = "cohortid")
 ```
 
 ## Conduct unsupervised random forest using cohort id as the outcome
 ```{r rf}
 analytic.rfsrc <- rfsrc.fast(cohortid ~ ., #regress cohort id on all other variables 
-                             data = df,
+                             data = cohort_na_df,
                              distance=T, ntree=1500, nsplit=3,
                              na.action="na.impute",nimpute=1) # impute within nodes
 distance.matrix <- analytic.rfsrc$distance     # extract distance matrix 
@@ -44,7 +60,7 @@ distance.matrix <- analytic.rfsrc$distance     # extract distance matrix
 ## Hierachical clustering of the average distance matrix
 ```{r h-cluster}
 #calculate average distance matrix
-dist_avg_mat <- avg_dist_func(distance.matrix, df$cohortid)
+dist_avg_mat <- avg_dist_func(distance.matrix, cohort_na_df$cohortid)
 
 #cluster average distance matrix and 
 #identify which cohorts are clustering together on dendogram
@@ -54,17 +70,26 @@ dmean <- as.dist(dist_avg_mat)
 hc2 <- hclust(dmean, method = "ward.D2")
 dend <- as.dendrogram(hc2)
 plot(dend)
-table(true_distribution, df$cohortid, dnn = c("True Cluster","Cohort ID"))
+table(true_distribution, cohort_na_df$cohortid, dnn = c("True Cluster","Cohort ID"))
 ```
+
+## Within cohort imputation to account for Missing At Random (MAR) variables 
+We generally do not impute the missing variables that are completely missing or 
+missing more than 50%.
+
+A function for imputation by group is under development (please find `miceadds::mice.impute.grouped` for similar functionality).
+
+
 ## Recursive BG testing based on the previous dendrogram 
 ```{r recursion, warning=F, message=F, error=F}
-ll <- recursive.test(dend = dend, df = df, cohortid.var = "cohortid", 
+# we use mean imputation and asymptotic BG test for illustrative purposes. 
+ll <- recursive.test(dend = dend, df = cohort_na_df, cohortid.var = "cohortid", 
            verbose = T, saveIntermediate = F, 
            BG.method = 'asymptotic', impute = T, 
            miceArgs = list(method = c("mean"), m =1, maxit = 5, seed = 123, printFlag = F))
 
 ll$clusters
-table(true_distribution, df$cohortid, dnn = c("True Cluster","Cohort ID"))
+table(true_distribution, cohort_na_df$cohortid, dnn = c("True Cluster","Cohort ID"))
 ```
 
 

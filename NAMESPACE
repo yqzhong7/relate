@@ -2,6 +2,7 @@
 
 export(BGcompare)
 export(avg_dist_func)
+export(find_na_level)
 export(mice_group_impute)
 export(recursive.test)
 importFrom(magrittr,"%>%")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/recursive-test.R
 \name{recursive.test}
 \alias{recursive.test}
-\title{Recursive Multivariate Testing for Cohort Clustering}
+\title{Recursive Multivariate Testing}
 \usage{
 recursive.test(
   dend,
@@ -23,7 +23,7 @@ recursive.test(
 
 \item{df}{data.frame}
 
-\item{cohortid.var}{string, name of the cohort id indicator in the \code{df}}
+\item{cohortid.var}{string, name of the cohort id indicator in the \code{relate::df}}
 
 \item{alpha.level}{numeric, alpha level for statistical significance of the BG test}
 
@@ -31,7 +31,7 @@ recursive.test(
 
 \item{saveIntermediate}{boolean, whether to save the intermediate test result in the final output}
 
-\item{BG.method}{string, "asymptotic","permutation","automatic", see \code{BGcompare} above}
+\item{BG.method}{string, "asymptotic","permutation","automatic", see \code{relate::BGcompare} above}
 
 \item{n_perm}{number of permutation if method is permutation}
 

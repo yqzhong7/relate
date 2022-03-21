@@ -1,15 +1,15 @@
-#' @title Recursive Multivariate Testing for Cohort Clustering
+#' @title Recursive Multivariate Testing
 #'
 #' @description This recursion function conducts the Biswas and Ghosh multivariate test
 #' based on the dendrogram from the hierarchical clustering of the average distance matrix of the unsupervised random forest.
 #'
 #' @param dend dendrogram object from the `stat::as.as.dendrogram()`
 #' @param df  data.frame
-#' @param cohortid.var string, name of the cohort id indicator in the `df`
+#' @param cohortid.var string, name of the cohort id indicator in the `relate::df`
 #' @param alpha.level numeric, alpha level for statistical significance of the BG test
 #' @param verbose boolean, whether to print the intermediate test results at each round
 #' @param saveIntermediate boolean, whether to save the intermediate test result in the final output
-#' @param BG.method string, "asymptotic","permutation","automatic", see `BGcompare` above
+#' @param BG.method string, "asymptotic","permutation","automatic", see `relate::BGcompare` above
 #' @param n_perm number of permutation if method is permutation
 #' @param N_auto integer, the sample size for automatically choosing between asymptotic and permutation, below is permutation, above is asymptotic
 #' @param impute boolean, whether to conduct MICE imputation within clusters before testing
