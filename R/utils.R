@@ -38,7 +38,7 @@ avg_dist_func <- function(dist_mat, cohortid.vec){
 find_na_level <- function(df, clusterid){
   df <- df %>%
     dplyr::group_by(dplyr::across(clusterid)) %>%
-    dplyr::summarise(dplyr::across(dplyr::everything(), na=~sum(is.na(.x)/dplyr::n())))
+    dplyr::summarise(dplyr::across(dplyr::everything(), ~sum(is.na(.x)/dplyr::n())))
 
   colnames(df)[1] <- "ClusterID"
   return(df)

@@ -34,7 +34,7 @@ suppressMessages({
 set.seed(123)
 #load simulated dataset from the package
 data("cohort_na_df")
-cohort_na_df[199:202,]
+cohort_na_df[199:202,] 
 #save the true distribution
 true_distribution <- cohort_na_df$distribution 
 cohort_na_df <- cohort_na_df %>% dplyr::select(-distribution)
@@ -77,7 +77,7 @@ table(true_distribution, cohort_na_df$cohortid, dnn = c("True Cluster","Cohort I
 We generally do not impute the missing variables that are completely missing or 
 missing more than 50%.
 
-A function for imputation by group is under development (please find `miceadds::mice.impute.grouped` for similar functionality).
+A function for imputation by group is under development (please find `miceadds::mice.impute.bygroup` for similar functionality).
 
 
 ## Recursive BG testing based on the previous dendrogram 
