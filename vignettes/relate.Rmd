@@ -77,15 +77,18 @@ table(true_distribution, cohort_na_df$cohortid, dnn = c("True Cluster","Cohort I
 We generally do not impute the missing variables that are completely missing or 
 missing more than 50%.
 
-A function for imputation by group is under development (please find `miceadds::mice.impute.bygroup` for similar functionality).
-
+The `relate::mice_group_impute` in this package provides imputation by group regardless of missingness level (imputeLevel = 1). 
+Please find `miceadds::mice.impute.bygroup` for similar functionality. 
+```{r groupimp, eval=F}
+mice_group_impute(df = cohort_na_df, clusterid = "cohortid", imputeLevel = 1, miceArg = list(method = 'mean', maxit = 1))
+```
 
 ## Recursive BG testing based on the previous dendrogram 
 ```{r recursion, warning=F, message=F, error=F}
 # we use mean imputation and asymptotic BG test for illustrative purposes. 
 ll <- recursive.test(dend = dend, df = cohort_na_df, cohortid.var = "cohortid", 
            verbose = T, saveIntermediate = F, 
-           BG.method = 'asymptotic', impute = T, 
+           BG.method = 'permutation', n_perm = 100, impute = T, 
            miceArgs = list(method = c("mean"), m =1, maxit = 5, seed = 123, printFlag = F))
 
 ll$clusters

@@ -69,7 +69,8 @@ recursive.test <- function(dend , df, cohortid.var = "cohortid", alpha.level = 0
                                    dplyr::filter(.data$clusterid %in% Y) %>%
                                    dplyr::select(-.data$cohortid,-.data$clusterid) %>%
                                    as.matrix(),
-                                 BG.method = BG.method)
+                                 BG.method = BG.method,
+                                 .n_perm = n_perm)
 
 
 
