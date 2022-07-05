@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# RELATE: REcursive muLtivariAte TEsting for cohort clustering
+# relate: REcursive muLtivariAte TEsting for cohort clustering
 
 <!-- badges: start -->
 

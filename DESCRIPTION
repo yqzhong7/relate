@@ -1,6 +1,6 @@
 Package: relate
 Title: REcursive muLtivariAte TEsting for cohort clustering
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Yongqi",
            family = "Zhong",
@@ -17,7 +17,7 @@ RoxygenNote: 7.1.0
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat
 VignetteBuilder: knitr
 Imports: 
     rlang,
@@ -37,4 +37,3 @@ Depends:
     R (>= 2.10)
 URL: https://yqzhong7.github.io/relate, https://github.com/yqzhong7/relate
 BugReports: https://github.com/yqzhong7/relate/issues
-Config/testthat/edition: 3

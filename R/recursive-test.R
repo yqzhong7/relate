@@ -45,7 +45,7 @@ recursive.test <- function(dend , df, cateVar = NULL, ordinalVar = NULL,
 
   #standardization
   imputed_df <- imputed_df %>%
-    dplyr::mutate(dplyr::across(-clusterid, ~as.numeric(scale(.x))))
+    dplyr::mutate(dplyr::across(-.data$clusterid, ~as.numeric(scale(.x))))
 
 
   ##---wrapper for pairwise comparison---#
@@ -122,13 +122,26 @@ recursive.test <- function(dend , df, cateVar = NULL, ordinalVar = NULL,
     compareDF <- compareDF_func(X=left, Y=right, verbose = verbose, BG.method = BG.method)
     order_testing <<- append(order_testing, list(compareDF))
 
-    #update cluster id and imputated variable
-    for (i in 1:nrow(compareDF)){
-      if(!compareDF$Significant[i]){
+    #update cluster id and imputed variable
+    mergeClusterID <- compareDF %>%
+      #create indicator for merging
+      dplyr::mutate(X_merged = F,
+                    Y_merged = F) %>%
+      #merge by larger p values
+      dplyr::arrange(dplyr::desc(.data$Pairwise.p))
+
+    for (i in 1:nrow(mergeClusterID)){
+      # only merge highest p-value pairs
+      if(!mergeClusterID$Significant[i] & !mergeClusterID$X_merged[i] & !mergeClusterID$Y_merged[i]){
         newclusterid = paste(compareDF$X[i],compareDF$Y[i], sep = ",")
-        imputed_df <<- imputed_df %>%
-          dplyr::mutate(clusterid = ifelse(.data$clusterid %in% c(compareDF$X[i],compareDF$Y[i]),
-                                           newclusterid,.data$clusterid))
+        mergeClusterID <<- mergeClusterID %>%
+          #only retain those unmerged
+          dplyr::filter(!.data$X_merged & !.data$Y_merged) %>%
+          dplyr::mutate(X_merged = (.data$X==mergeClusterID$X[i]),
+                        Y_merged = (.data$Y==mergeClusterID$Y[i]) )
+
+        imputed_df$clusterid <<-ifelse(imputed_df$clusterid %in% c(compareDF$X[i],compareDF$Y[i]),
+                                           newclusterid,imputed_df$clusterid)
       }
     }
 
