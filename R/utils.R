@@ -3,13 +3,26 @@
 #' @description Convert individual-level distance matrix to average distance matrix at cohort level
 #'
 #' @param dist_mat distance matrix
-#' @param cohortid.vec a numeric vector of cohort/group id for all observations e.g., `rep(1:4,each=100)`
+#' @param cohortid.vec a vector of cohort/group id for all observations e.g., `rep(1:4,each=100)`
 #'
 #' @importFrom magrittr "%>%"
 #' @importFrom rlang .data
 #'
 #' @export
 avg_dist_func <- function(dist_mat, cohortid.vec){
+  # arg checks
+  if( class(dist_mat) != "matrix") {
+    stop("dist_mat is not a matrix")
+  }
+
+  if( ncol(dist_mat) != nrow(dist_mat)){
+    stop("Dimension error: dist_mat is not a square matrix. Please check the dimensions of dist_mat")
+  }
+
+  if( ncol(dist_mat) != length(cohortid.vec)) {
+    stop("Dimension error: the length of cohortid.vec is not equal to the dimensions of dist_mat.")
+  }
+
   #change matrix row and column names
   colnames(dist_mat) <- rownames(dist_mat) <- cohortid.vec
 

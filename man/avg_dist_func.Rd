@@ -9,7 +9,7 @@ avg_dist_func(dist_mat, cohortid.vec)
 \arguments{
 \item{dist_mat}{distance matrix}
 
-\item{cohortid.vec}{a numeric vector of cohort/group id for all observations e.g., \code{rep(1:4,each=100)}}
+\item{cohortid.vec}{a vector of cohort/group id for all observations e.g., \code{rep(1:4,each=100)}}
 }
 \description{
 Convert individual-level distance matrix to average distance matrix at cohort level

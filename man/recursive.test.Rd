@@ -7,6 +7,8 @@
 recursive.test(
   dend,
   df,
+  cateVar = NULL,
+  ordinalVar = NULL,
   cohortid.var = "cohortid",
   alpha.level = 0.05,
   verbose = T,
@@ -22,6 +24,10 @@ recursive.test(
 \item{dend}{dendrogram object from the \code{stat::as.as.dendrogram()}}
 
 \item{df}{data.frame}
+
+\item{cateVar}{string or vector, names of variables are categorical, which will be converted into dummy variables}
+
+\item{ordinalVar}{string or vector, names of variables are ordinal factors, which will be converted into numeric variables}
 
 \item{cohortid.var}{string, name of the cohort id indicator in the \code{relate::df}}
 

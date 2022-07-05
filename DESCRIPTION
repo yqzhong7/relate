@@ -16,7 +16,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Imports: 
     rlang,
@@ -30,8 +31,10 @@ Imports:
     tibble,
     purrr,
     stats,
-    randomForestSRC
+    randomForestSRC,
+    fastDummies
 Depends: 
     R (>= 2.10)
 URL: https://yqzhong7.github.io/relate, https://github.com/yqzhong7/relate
 BugReports: https://github.com/yqzhong7/relate/issues
+Config/testthat/edition: 3

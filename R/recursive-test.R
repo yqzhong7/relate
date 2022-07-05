@@ -5,6 +5,8 @@
 #'
 #' @param dend dendrogram object from the `stat::as.as.dendrogram()`
 #' @param df  data.frame
+#' @param cateVar string or vector, names of variables are categorical, which will be converted into dummy variables
+#' @param ordinalVar string or vector, names of variables are ordinal factors, which will be converted into numeric variables
 #' @param cohortid.var string, name of the cohort id indicator in the `relate::df`
 #' @param alpha.level numeric, alpha level for statistical significance of the BG test
 #' @param verbose boolean, whether to print the intermediate test results at each round
@@ -20,14 +22,31 @@
 #' @importFrom stats is.leaf
 #'
 #' @export
-recursive.test <- function(dend , df, cohortid.var = "cohortid", alpha.level = 0.05,
-                 verbose = T,saveIntermediate = F,
-                 BG.method = 'asymptotic', n_perm = 200, N_auto = 50,
-                 impute = T, miceArgs = list(method = 'mean', maxit = 1)){
+recursive.test <- function(dend , df, cateVar = NULL, ordinalVar = NULL,
+                           cohortid.var = "cohortid", alpha.level = 0.05,
+                           verbose = T,saveIntermediate = F,
+                           BG.method = 'asymptotic', n_perm = 200, N_auto = 50,
+                           impute = T, miceArgs = list(method = 'mean', maxit = 1)){
   ##---data preprocessing---#
   imputed_df <- df %>%
     dplyr::rename(cohortid = dplyr::all_of(cohortid.var)) %>%
     dplyr::mutate(clusterid = .data$cohortid)
+
+  # dummy variables
+  if (!is.null(cateVar)){
+    imputed_df <- fastDummies::dummy_cols(imputed_df, select_columns = cateVar,
+                                          remove_selected_columns	= T)
+  }
+  # ordinal to numeric
+  if (!is.null(ordinalVar)){
+    imputed_df <- imputed_df %>%
+      dplyr::mutate(dplyr::across(dplyr::all_of(ordinalVar), as.numeric))
+  }
+
+  #standardization
+  imputed_df <- imputed_df %>%
+    dplyr::mutate(dplyr::across(-clusterid, ~as.numeric(scale(.x))))
+
 
   ##---wrapper for pairwise comparison---#
   compareDF_func <- function(X, Y, verbose , BG.method){
