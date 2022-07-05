@@ -11,7 +11,7 @@
 #' @export
 avg_dist_func <- function(dist_mat, cohortid.vec){
   # arg checks
-  if( class(dist_mat) != "matrix") {
+  if( !(class(dist_mat) %in% "matrix")) {
     stop("dist_mat is not a matrix")
   }
 
