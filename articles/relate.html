@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">relate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
       </span>
     </div>
 
@@ -80,111 +80,111 @@
 <h2 id="load-packages">Load packages<a class="anchor" aria-label="anchor" href="#load-packages"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://talgalili.github.io/dendextend/" class="external-link">dendextend</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://luminwin.github.io/randomForestSRC/" class="external-link">randomForestSRC</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kisungyou.com/SHT/" class="external-link">SHT</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/amices/mice" class="external-link">mice</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yqzhong7.github.io/relate">relate</a></span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://talgalili.github.io/dendextend/" class="external-link">dendextend</a></span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.randomforestsrc.org/" class="external-link">randomForestSRC</a></span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kisungyou.com/SHT/" class="external-link">SHT</a></span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/amices/mice" class="external-link">mice</a></span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yqzhong7.github.io/relate">relate</a></span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="data-setup">Data setup<a class="anchor" aria-label="anchor" href="#data-setup"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
-<span class="co">#load simulated dataset from the package</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohort_na_df"</span><span class="op">)</span>
-<span class="va">cohort_na_df</span><span class="op">[</span><span class="fl">199</span><span class="op">:</span><span class="fl">202</span>,<span class="op">]</span> 
-<span class="co">#&gt;           X1        X2       X3        X4         X5        X6       X7</span>
-<span class="co">#&gt; 199 9.800547 11.192049 13.22608 11.741157  3.2985284 17.568287 16.80876</span>
-<span class="co">#&gt; 200 9.931415 10.138727 11.55728 13.071213  0.1115508  9.439059 12.11496</span>
-<span class="co">#&gt; 201 4.040424 10.757824       NA  5.497721 -2.1834396 -7.249764 16.84709</span>
-<span class="co">#&gt; 202 4.658563  8.917538       NA  5.997931  1.5099440  8.548666 11.56883</span>
-<span class="co">#&gt;           X8        X9       X10       X11      X12      X13      X14</span>
-<span class="co">#&gt; 199 19.57499 15.711291  8.704099 14.994329 19.08767 17.18427 9.340641</span>
-<span class="co">#&gt; 200 19.50130 15.995014 12.911449  8.116613 20.50924 17.98611 2.671327</span>
-<span class="co">#&gt; 201 11.47614 10.095340        NA  7.683143 24.87351 12.84377 7.324220</span>
-<span class="co">#&gt; 202 16.18313  8.848892        NA 10.561502 18.80442 19.89488 8.512655</span>
-<span class="co">#&gt;            X15 cohortid distribution</span>
-<span class="co">#&gt; 199 12.6633576        2            1</span>
-<span class="co">#&gt; 200  9.7992329        2            1</span>
-<span class="co">#&gt; 201  1.0246224        3            1</span>
-<span class="co">#&gt; 202  0.8836475        3            1</span>
-<span class="co">#save the true distribution</span>
-<span class="va">true_distribution</span> <span class="op">&lt;-</span> <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">distribution</span> 
-<span class="va">cohort_na_df</span> <span class="op">&lt;-</span> <span class="va">cohort_na_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">distribution</span><span class="op">)</span>
-<span class="co"># examine missing pattern (e.g., some cohorts did not collect specific information)</span>
-<span class="va">cohort_na_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/find_na_level.html">find_na_level</a></span><span class="op">(</span>clusterid <span class="op">=</span> <span class="st">"cohortid"</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 16</span></span>
-<span class="co">#&gt;    ClusterID    X1    X2    X3    X4    X5    X6    X7    X8    X9   X10   X11</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1     0     0     0     0     0     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2     0     0     0     0     0     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3     0     0     1     0     0     0     0     0     0     1     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4     0     0     0     0     0     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5     0     0     0     1     0     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6     0     0     0     0     0     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7     0     0     0     0     0     0     0     0     1     0     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8     0     0     0     0     0     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9     0     0     1     0     1     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10     0     0     0     0     0     0     0     0     0     0     0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: X12 &lt;dbl&gt;, X13 &lt;dbl&gt;, X14 &lt;dbl&gt;, X15 &lt;dbl&gt;</span></span>
-<span class="co">#add random missingness in addition to the systematic missingness for a more realistic scenario</span>
-<span class="va">random_missing_row</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cohort_na_df</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cohort_na_df</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="va">missing_col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">8</span>,<span class="fl">13</span>,<span class="fl">14</span><span class="op">)</span>
-<span class="va">cohort_na_df</span><span class="op">[</span><span class="va">random_missing_row</span>, <span class="va">missing_col</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span>
-<span class="co"># examine missing pattern after adding random missingness</span>
-<span class="va">cohort_na_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/find_na_level.html">find_na_level</a></span><span class="op">(</span>clusterid <span class="op">=</span> <span class="st">"cohortid"</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 16</span></span>
-<span class="co">#&gt;    ClusterID    X1    X2    X3    X4    X5    X6    X7    X8    X9   X10   X11</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1  0.49     0     0     0     0     0     0  0.49     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2  0.55     0     0     0     0     0     0  0.55     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3  0.48     0     1     0     0     0     0  0.48     0     1     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4  0.54     0     0     0     0     0     0  0.54     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5  0.49     0     0     1     0     0     0  0.49     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6  0.47     0     0     0     0     0     0  0.47     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7  0.49     0     0     0     0     0     0  0.49     1     0     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8  0.48     0     0     0     0     0     0  0.48     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9  0.53     0     1     0     1     0     0  0.53     0     0     0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10  0.48     0     0     0     0     0     0  0.48     0     0     0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: X12 &lt;dbl&gt;, X13 &lt;dbl&gt;, X14 &lt;dbl&gt;, X15 &lt;dbl&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co">#load simulated dataset from the package</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohort_na_df"</span><span class="op">)</span></span>
+<span><span class="va">cohort_na_df</span><span class="op">[</span><span class="fl">199</span><span class="op">:</span><span class="fl">202</span>,<span class="op">]</span> </span>
+<span><span class="co">#&gt;           X1        X2       X3        X4         X5        X6       X7</span></span>
+<span><span class="co">#&gt; 199 9.800547 11.192049 13.22608 11.741157  3.2985284 17.568287 16.80876</span></span>
+<span><span class="co">#&gt; 200 9.931415 10.138727 11.55728 13.071213  0.1115508  9.439059 12.11496</span></span>
+<span><span class="co">#&gt; 201 4.040424 10.757824       NA  5.497721 -2.1834396 -7.249764 16.84709</span></span>
+<span><span class="co">#&gt; 202 4.658563  8.917538       NA  5.997931  1.5099440  8.548666 11.56883</span></span>
+<span><span class="co">#&gt;           X8        X9       X10       X11      X12      X13      X14</span></span>
+<span><span class="co">#&gt; 199 19.57499 15.711291  8.704099 14.994329 19.08767 17.18427 9.340641</span></span>
+<span><span class="co">#&gt; 200 19.50130 15.995014 12.911449  8.116613 20.50924 17.98611 2.671327</span></span>
+<span><span class="co">#&gt; 201 11.47614 10.095340        NA  7.683143 24.87351 12.84377 7.324220</span></span>
+<span><span class="co">#&gt; 202 16.18313  8.848892        NA 10.561502 18.80442 19.89488 8.512655</span></span>
+<span><span class="co">#&gt;            X15 cohortid distribution</span></span>
+<span><span class="co">#&gt; 199 12.6633576        2            1</span></span>
+<span><span class="co">#&gt; 200  9.7992329        2            1</span></span>
+<span><span class="co">#&gt; 201  1.0246224        3            1</span></span>
+<span><span class="co">#&gt; 202  0.8836475        3            1</span></span>
+<span><span class="co">#save the true distribution</span></span>
+<span><span class="va">true_distribution</span> <span class="op">&lt;-</span> <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">distribution</span> </span>
+<span><span class="va">cohort_na_df</span> <span class="op">&lt;-</span> <span class="va">cohort_na_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">distribution</span><span class="op">)</span></span>
+<span><span class="co"># examine missing pattern (e.g., some cohorts did not collect specific information)</span></span>
+<span><span class="va">cohort_na_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/find_na_level.html">find_na_level</a></span><span class="op">(</span>clusterid <span class="op">=</span> <span class="st">"cohortid"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 16</span></span></span>
+<span><span class="co">#&gt;    ClusterID    X1    X2    X3    X4    X5    X6    X7    X8    X9   X10   X11</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1     0     0     0     0     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2     0     0     0     0     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3     0     0     1     0     0     0     0     0     0     1     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4     0     0     0     0     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5     0     0     0     1     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6     0     0     0     0     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7     0     0     0     0     0     0     0     0     1     0     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8     0     0     0     0     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9     0     0     1     0     1     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10     0     0     0     0     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: X12 &lt;dbl&gt;, X13 &lt;dbl&gt;, X14 &lt;dbl&gt;, X15 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#add random missingness in addition to the systematic missingness for a more realistic scenario</span></span>
+<span><span class="va">random_missing_row</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cohort_na_df</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cohort_na_df</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">missing_col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">8</span>,<span class="fl">13</span>,<span class="fl">14</span><span class="op">)</span></span>
+<span><span class="va">cohort_na_df</span><span class="op">[</span><span class="va">random_missing_row</span>, <span class="va">missing_col</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span><span class="co"># examine missing pattern after adding random missingness</span></span>
+<span><span class="va">cohort_na_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/find_na_level.html">find_na_level</a></span><span class="op">(</span>clusterid <span class="op">=</span> <span class="st">"cohortid"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 16</span></span></span>
+<span><span class="co">#&gt;    ClusterID    X1    X2    X3    X4    X5    X6    X7    X8    X9   X10   X11</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1  0.49     0     0     0     0     0     0  0.49     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2  0.55     0     0     0     0     0     0  0.55     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3  0.48     0     1     0     0     0     0  0.48     0     1     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4  0.54     0     0     0     0     0     0  0.54     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5  0.49     0     0     1     0     0     0  0.49     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6  0.47     0     0     0     0     0     0  0.47     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7  0.49     0     0     0     0     0     0  0.49     1     0     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8  0.48     0     0     0     0     0     0  0.48     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9  0.53     0     1     0     1     0     0  0.53     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10  0.48     0     0     0     0     0     0  0.48     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: X12 &lt;dbl&gt;, X13 &lt;dbl&gt;, X14 &lt;dbl&gt;, X15 &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="conduct-unsupervised-random-forest-using-cohort-id-as-the-outcome">Conduct unsupervised random forest using cohort id as the outcome<a class="anchor" aria-label="anchor" href="#conduct-unsupervised-random-forest-using-cohort-id-as-the-outcome"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">analytic.rfsrc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForestSRC/man/rfsrc.fast.html" class="external-link">rfsrc.fast</a></span><span class="op">(</span><span class="va">cohortid</span> <span class="op">~</span> <span class="va">.</span>, <span class="co">#regress cohort id on all other variables </span>
-                             data <span class="op">=</span> <span class="va">cohort_na_df</span>,
-                             distance<span class="op">=</span><span class="cn">T</span>, ntree<span class="op">=</span><span class="fl">1500</span>, nsplit<span class="op">=</span><span class="fl">3</span>,
-                             na.action<span class="op">=</span><span class="st">"na.impute"</span>,nimpute<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="co"># impute within nodes</span>
-<span class="va">distance.matrix</span> <span class="op">&lt;-</span> <span class="va">analytic.rfsrc</span><span class="op">$</span><span class="va">distance</span>     <span class="co"># extract distance matrix </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">analytic.rfsrc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.randomforestsrc.org//reference/rfsrc.fast.html" class="external-link">rfsrc.fast</a></span><span class="op">(</span><span class="va">cohortid</span> <span class="op">~</span> <span class="va">.</span>, <span class="co">#regress cohort id on all other variables </span></span>
+<span>                             data <span class="op">=</span> <span class="va">cohort_na_df</span>,</span>
+<span>                             distance<span class="op">=</span><span class="cn">T</span>, ntree<span class="op">=</span><span class="fl">1500</span>, nsplit<span class="op">=</span><span class="fl">3</span>,</span>
+<span>                             na.action<span class="op">=</span><span class="st">"na.impute"</span>,nimpute<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="co"># impute within nodes</span></span>
+<span><span class="va">distance.matrix</span> <span class="op">&lt;-</span> <span class="va">analytic.rfsrc</span><span class="op">$</span><span class="va">distance</span>     <span class="co"># extract distance matrix </span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="hierachical-clustering-of-the-average-distance-matrix">Hierachical clustering of the average distance matrix<a class="anchor" aria-label="anchor" href="#hierachical-clustering-of-the-average-distance-matrix"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#calculate average distance matrix</span>
-<span class="va">dist_avg_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/avg_dist_func.html">avg_dist_func</a></span><span class="op">(</span><span class="va">distance.matrix</span>, <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">cohortid</span><span class="op">)</span>
-
-<span class="co">#cluster average distance matrix and </span>
-<span class="co">#identify which cohorts are clustering together on dendogram</span>
-<span class="va">dmean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">dist_avg_mat</span><span class="op">)</span>
-
-<span class="co">#hierarchical clustering </span>
-<span class="va">hc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">dmean</span>, method <span class="op">=</span> <span class="st">"ward.D2"</span><span class="op">)</span>
-<span class="va">dend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">hc2</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dend</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#calculate average distance matrix</span></span>
+<span><span class="va">dist_avg_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/avg_dist_func.html">avg_dist_func</a></span><span class="op">(</span><span class="va">distance.matrix</span>, <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">cohortid</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#cluster average distance matrix and </span></span>
+<span><span class="co">#identify which cohorts are clustering together on dendogram</span></span>
+<span><span class="va">dmean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">dist_avg_mat</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#hierarchical clustering </span></span>
+<span><span class="va">hc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">dmean</span>, method <span class="op">=</span> <span class="st">"ward.D2"</span><span class="op">)</span></span>
+<span><span class="va">dend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">hc2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dend</span><span class="op">)</span></span></code></pre></div>
 <p><img src="relate_files/figure-html/h-cluster-1.png" width="700"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">true_distribution</span>, <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">cohortid</span>, dnn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"True Cluster"</span>,<span class="st">"Cohort ID"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;             Cohort ID</span>
-<span class="co">#&gt; True Cluster   1   2   3   4   5   6   7   8   9  10</span>
-<span class="co">#&gt;            1 100 100 100   0   0   0   0   0   0   0</span>
-<span class="co">#&gt;            2   0   0   0 100 100 100   0   0   0   0</span>
-<span class="co">#&gt;            3   0   0   0   0   0   0 100 100 100 100</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">true_distribution</span>, <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">cohortid</span>, dnn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"True Cluster"</span>,<span class="st">"Cohort ID"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;             Cohort ID</span></span>
+<span><span class="co">#&gt; True Cluster   1   2   3   4   5   6   7   8   9  10</span></span>
+<span><span class="co">#&gt;            1 100 100 100   0   0   0   0   0   0   0</span></span>
+<span><span class="co">#&gt;            2   0   0   0 100 100 100   0   0   0   0</span></span>
+<span><span class="co">#&gt;            3   0   0   0   0   0   0 100 100 100 100</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="within-cohort-imputation-to-account-for-missing-at-random-mar-variables">Within cohort imputation to account for Missing At Random (MAR) variables<a class="anchor" aria-label="anchor" href="#within-cohort-imputation-to-account-for-missing-at-random-mar-variables"></a>
@@ -192,131 +192,137 @@
 <p>We generally do not impute the missing variables that are completely missing or missing more than 50%.</p>
 <p>The <code><a href="../reference/mice_group_impute.html">relate::mice_group_impute</a></code> in this package provides imputation by group regardless of missingness level (imputeLevel = 1). Please find <code>miceadds::mice.impute.bygroup</code> for similar functionality.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mice_group_impute.html">mice_group_impute</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">cohort_na_df</span>, clusterid <span class="op">=</span> <span class="st">"cohortid"</span>, imputeLevel <span class="op">=</span> <span class="fl">1</span>, miceArg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'mean'</span>, maxit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mice_group_impute.html">mice_group_impute</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">cohort_na_df</span>, clusterid <span class="op">=</span> <span class="st">"cohortid"</span>, imputeLevel <span class="op">=</span> <span class="fl">1</span>, miceArg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'mean'</span>, maxit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="recursive-bg-testing-based-on-the-previous-dendrogram">Recursive BG testing based on the previous dendrogram<a class="anchor" aria-label="anchor" href="#recursive-bg-testing-based-on-the-previous-dendrogram"></a>
 </h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># we use mean imputation and asymptotic BG test for illustrative purposes. </span>
-<span class="va">ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/recursive.test.html">recursive.test</a></span><span class="op">(</span>dend <span class="op">=</span> <span class="va">dend</span>, df <span class="op">=</span> <span class="va">cohort_na_df</span>, cohortid.var <span class="op">=</span> <span class="st">"cohortid"</span>, 
-           verbose <span class="op">=</span> <span class="cn">T</span>, saveIntermediate <span class="op">=</span> <span class="cn">F</span>, 
-           BG.method <span class="op">=</span> <span class="st">'permutation'</span>, n_perm <span class="op">=</span> <span class="fl">100</span>, impute <span class="op">=</span> <span class="cn">T</span>, 
-           miceArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span><span class="op">)</span>, m <span class="op">=</span><span class="fl">1</span>, maxit <span class="op">=</span> <span class="fl">5</span>, seed <span class="op">=</span> <span class="fl">123</span>, printFlag <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   X     Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 9     10   </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.38 FALSE      </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   X     Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 8     9,10 </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.15 FALSE      </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   X     Y     </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 7     8,9,10</span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.07 FALSE      </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   X     Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     2    </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.29 FALSE      </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   X     Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 3     1,2  </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.71 FALSE      </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   X     Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 4     5    </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.97 FALSE      </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   X     Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6     4,5  </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.03 TRUE       </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#&gt;   X     Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 3,1,2 6    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 3,1,2 4,5  </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>          0 TRUE       </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          0 TRUE       </span>
-<span class="co">#&gt; --------------------------</span>
-<span class="co">#&gt; Start testing: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span>
-<span class="co">#&gt;   X        Y    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 7,8,9,10 3,1,2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 7,8,9,10 6    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 7,8,9,10 4,5  </span>
-<span class="co">#&gt; Results: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span>
-<span class="co">#&gt;   Pairwise.p Significant</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>          0 TRUE       </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          0 TRUE       </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          0 TRUE       </span>
-<span class="co">#&gt; --------------------------</span>
-
-<span class="va">ll</span><span class="op">$</span><span class="va">clusters</span>
-<span class="co">#&gt; [1] "7,8,9,10" "3,1,2"    "6"        "4,5"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">true_distribution</span>, <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">cohortid</span>, dnn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"True Cluster"</span>,<span class="st">"Cohort ID"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;             Cohort ID</span>
-<span class="co">#&gt; True Cluster   1   2   3   4   5   6   7   8   9  10</span>
-<span class="co">#&gt;            1 100 100 100   0   0   0   0   0   0   0</span>
-<span class="co">#&gt;            2   0   0   0 100 100 100   0   0   0   0</span>
-<span class="co">#&gt;            3   0   0   0   0   0   0 100 100 100 100</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># we use mean imputation and asymptotic BG test for illustrative purposes. </span></span>
+<span><span class="va">ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/recursive.test.html">recursive.test</a></span><span class="op">(</span>dend <span class="op">=</span> <span class="va">dend</span>, df <span class="op">=</span> <span class="va">cohort_na_df</span>, cohortid.var <span class="op">=</span> <span class="st">"cohortid"</span>, </span>
+<span>           verbose <span class="op">=</span> <span class="cn">T</span>, saveIntermediate <span class="op">=</span> <span class="cn">F</span>, </span>
+<span>           BG.method <span class="op">=</span> <span class="st">'permutation'</span>, n_perm <span class="op">=</span> <span class="fl">100</span>, impute <span class="op">=</span> <span class="cn">T</span>, </span>
+<span>           miceArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span><span class="op">)</span>, m <span class="op">=</span><span class="fl">1</span>, maxit <span class="op">=</span> <span class="fl">5</span>, seed <span class="op">=</span> <span class="fl">123</span>, printFlag <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 9     10   </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.49 FALSE      </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 8     9,10 </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.29 FALSE      </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 7     8,9,10</span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.03 TRUE       </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     2    </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.32 FALSE      </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 3     1,2  </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.71 FALSE      </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 4     5    </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.79 FALSE      </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6     4,5  </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.04 TRUE       </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt;   X     Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 3,1,2 6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 3,1,2 4,5  </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Start testing: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
+<span><span class="co">#&gt;   X      Y    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 7      3,1,2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 8,9,10 3,1,2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 7      6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 8,9,10 6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 7      4,5  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 8,9,10 4,5  </span></span>
+<span><span class="co">#&gt; Results: </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
+<span><span class="co">#&gt;   Pairwise.p Significant</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>          0 TRUE       </span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span></span>
+<span><span class="va">ll</span><span class="op">$</span><span class="va">clusters</span></span>
+<span><span class="co">#&gt; [1] "7"      "8,9,10" "3,1,2"  "6"      "4,5"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">true_distribution</span>, <span class="va">cohort_na_df</span><span class="op">$</span><span class="va">cohortid</span>, dnn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"True Cluster"</span>,<span class="st">"Cohort ID"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;             Cohort ID</span></span>
+<span><span class="co">#&gt; True Cluster   1   2   3   4   5   6   7   8   9  10</span></span>
+<span><span class="co">#&gt;            1 100 100 100   0   0   0   0   0   0   0</span></span>
+<span><span class="co">#&gt;            2   0   0   0 100 100 100   0   0   0   0</span></span>
+<span><span class="co">#&gt;            3   0   0   0   0   0   0 100 100 100 100</span></span></code></pre></div>
 </div>
   </div>
 
@@ -337,7 +343,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

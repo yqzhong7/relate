@@ -18,7 +18,7 @@ based on the dendrogram from the hierarchical clustering of the average distance
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">relate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
       </span>
     </div>
 
@@ -55,45 +55,76 @@ based on the dendrogram from the hierarchical clustering of the average distance
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">recursive.test</span><span class="op">(</span>
-  <span class="va">dend</span>,
-  <span class="va">df</span>,
-  cohortid.var <span class="op">=</span> <span class="st">"cohortid"</span>,
-  alpha.level <span class="op">=</span> <span class="fl">0.05</span>,
-  verbose <span class="op">=</span> <span class="cn">T</span>,
-  saveIntermediate <span class="op">=</span> <span class="cn">F</span>,
-  BG.method <span class="op">=</span> <span class="st">"asymptotic"</span>,
-  n_perm <span class="op">=</span> <span class="fl">200</span>,
-  N_auto <span class="op">=</span> <span class="fl">50</span>,
-  impute <span class="op">=</span> <span class="cn">T</span>,
-  miceArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"mean"</span>, maxit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">recursive.test</span><span class="op">(</span></span>
+<span>  <span class="va">dend</span>,</span>
+<span>  <span class="va">df</span>,</span>
+<span>  cateVar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ordinalVar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cohortid.var <span class="op">=</span> <span class="st">"cohortid"</span>,</span>
+<span>  alpha.level <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  saveIntermediate <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  BG.method <span class="op">=</span> <span class="st">"asymptotic"</span>,</span>
+<span>  n_perm <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  N_auto <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  impute <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  miceArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"mean"</span>, maxit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dend</dt>
 <dd><p>dendrogram object from the <code>stat::as.as.dendrogram()</code></p></dd>
+
+
 <dt>df</dt>
 <dd><p>data.frame</p></dd>
+
+
+<dt>cateVar</dt>
+<dd><p>string or vector, names of variables are categorical, which will be converted into dummy variables</p></dd>
+
+
+<dt>ordinalVar</dt>
+<dd><p>string or vector, names of variables are ordinal factors, which will be converted into numeric variables</p></dd>
+
+
 <dt>cohortid.var</dt>
 <dd><p>string, name of the cohort id indicator in the <code><a href="https://rdrr.io/r/stats/Fdist.html" class="external-link">relate::df</a></code></p></dd>
+
+
 <dt>alpha.level</dt>
 <dd><p>numeric, alpha level for statistical significance of the BG test</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>boolean, whether to print the intermediate test results at each round</p></dd>
+
+
 <dt>saveIntermediate</dt>
 <dd><p>boolean, whether to save the intermediate test result in the final output</p></dd>
+
+
 <dt>BG.method</dt>
 <dd><p>string, "asymptotic","permutation","automatic", see <code><a href="BGcompare.html">relate::BGcompare</a></code> above</p></dd>
+
+
 <dt>n_perm</dt>
 <dd><p>number of permutation if method is permutation</p></dd>
+
+
 <dt>N_auto</dt>
 <dd><p>integer, the sample size for automatically choosing between asymptotic and permutation, below is permutation, above is asymptotic</p></dd>
+
+
 <dt>impute</dt>
 <dd><p>boolean, whether to conduct MICE imputation within clusters before testing</p></dd>
+
+
 <dt>miceArgs</dt>
 <dd><p>list, a list of arguments parse into <code><a href="https://amices.org/mice/reference/mice.html" class="external-link">mice::mice</a></code></p></dd>
+
 </dl></div>
 
   </div>
@@ -108,7 +139,7 @@ based on the dendrogram from the hierarchical clustering of the average distance
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

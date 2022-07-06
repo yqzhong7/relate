@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">relate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
       </span>
     </div>
 
@@ -53,25 +53,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">BGcompare</span><span class="op">(</span>
-  <span class="va">X</span>,
-  <span class="va">Y</span>,
-  BG.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"asymptotic"</span>, <span class="st">"permutation"</span>, <span class="st">"automatic"</span><span class="op">)</span>,
-  <span class="va">.n_perm</span>,
-  <span class="va">N_auto</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">BGcompare</span><span class="op">(</span></span>
+<span>  <span class="va">X</span>,</span>
+<span>  <span class="va">Y</span>,</span>
+<span>  BG.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"asymptotic"</span>, <span class="st">"permutation"</span>, <span class="st">"automatic"</span><span class="op">)</span>,</span>
+<span>  <span class="va">.n_perm</span>,</span>
+<span>  <span class="va">N_auto</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X, Y</dt>
 <dd><p>two dataframes for comparisons</p></dd>
+
+
 <dt>BG.method</dt>
 <dd><p>string, "asymptotic","permutation","automatic"</p></dd>
+
+
 <dt>.n_perm</dt>
 <dd><p>number of permuation if method is permutation</p></dd>
+
+
 <dt>N_auto</dt>
 <dd><p>integer, the sample size for automatically choosing between asymptotic and permutation, below is permutation, above is asymptotic</p></dd>
+
 </dl></div>
 
   </div>
@@ -86,7 +93,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">relate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
       </span>
     </div>
 
@@ -53,24 +53,31 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mice_group_impute</span><span class="op">(</span>
-  <span class="va">df</span>,
-  <span class="va">clusterid</span>,
-  imputeLevel <span class="op">=</span> <span class="fl">1</span>,
-  miceArg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"mean"</span>, maxit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mice_group_impute</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">clusterid</span>,</span>
+<span>  imputeLevel <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  miceArg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"mean"</span>, maxit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>data.frame for MICE imputation</p></dd>
+
+
 <dt>clusterid</dt>
 <dd><p>string, the name of cohort id indicator in the dataframe</p></dd>
+
+
 <dt>imputeLevel</dt>
 <dd><p>binary, 0 (no imputation) and 1 (impute everything)</p></dd>
+
+
 <dt>miceArg</dt>
 <dd><p>a list of arguments parse into <code><a href="https://amices.org/mice/reference/mice.html" class="external-link">mice::mice</a></code></p></dd>
+
 </dl></div>
 
   </div>
@@ -85,7 +92,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
