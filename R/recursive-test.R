@@ -45,7 +45,7 @@ recursive.test <- function(dend , df, cateVar = NULL, ordinalVar = NULL,
 
   #standardization
   imputed_df <- imputed_df %>%
-    dplyr::mutate(dplyr::across(-.data$clusterid, ~as.numeric(scale(.x))))
+    dplyr::mutate(dplyr::across(c(-.data$clusterid,-.data$cohortid), ~as.numeric(scale(.x))))
 
 
   ##---wrapper for pairwise comparison---#
