@@ -131,6 +131,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9     0     0     1     0     1     0     0     0     0     0     0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10     0     0     0     0     0     0     0     0     0     0     0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: X12 &lt;dbl&gt;, X13 &lt;dbl&gt;, X14 &lt;dbl&gt;, X15 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="co">#add random missingness in addition to the systematic missingness for a more realistic scenario</span></span>
 <span><span class="va">random_missing_row</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cohort_na_df</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cohort_na_df</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">missing_col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">8</span>,<span class="fl">13</span>,<span class="fl">14</span><span class="op">)</span></span>
@@ -150,7 +151,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8  0.48     0     0     0     0     0     0  0.48     0     0     0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9  0.53     0     1     0     1     0     0  0.53     0     0     0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10  0.48     0     0     0     0     0     0  0.48     0     0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: X12 &lt;dbl&gt;, X13 &lt;dbl&gt;, X14 &lt;dbl&gt;, X15 &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: X12 &lt;dbl&gt;, X13 &lt;dbl&gt;, X14 &lt;dbl&gt;, X15 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="conduct-unsupervised-random-forest-using-cohort-id-as-the-outcome">Conduct unsupervised random forest using cohort id as the outcome<a class="anchor" aria-label="anchor" href="#conduct-unsupervised-random-forest-using-cohort-id-as-the-outcome"></a>
@@ -343,7 +345,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
