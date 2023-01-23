@@ -131,16 +131,18 @@ recursive.test <- function(dend , df, cateVar = NULL, ordinalVar = NULL,
       dplyr::arrange(dplyr::desc(.data$Pairwise.p))
 
     for (i in 1:nrow(mergeClusterID)){
+      X_current = mergeClusterID$X[i]
+      Y_current = mergeClusterID$Y[i]
       # only merge highest p-value pairs
       if(!mergeClusterID$Significant[i] & !mergeClusterID$X_merged[i] & !mergeClusterID$Y_merged[i]){
-        newclusterid = paste(compareDF$X[i],compareDF$Y[i], sep = ",")
+        newclusterid = paste(X_current, Y_current, sep = ",")
         mergeClusterID <<- mergeClusterID %>%
           #only retain those unmerged
           dplyr::filter(!.data$X_merged & !.data$Y_merged) %>%
-          dplyr::mutate(X_merged = (.data$X==mergeClusterID$X[i]),
-                        Y_merged = (.data$Y==mergeClusterID$Y[i]) )
+          dplyr::mutate(X_merged = (.data$X==X_current),
+                        Y_merged = (.data$Y==Y_current) )
 
-        imputed_df$clusterid <<-ifelse(imputed_df$clusterid %in% c(compareDF$X[i],compareDF$Y[i]),
+        imputed_df$clusterid <<-ifelse(imputed_df$clusterid %in% c(X_current, Y_current),
                                            newclusterid,imputed_df$clusterid)
       }
     }
